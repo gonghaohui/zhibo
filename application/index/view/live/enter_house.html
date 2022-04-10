@@ -61,7 +61,7 @@
             success: function (data) {
                 if(data.code == 200){
                     sessionStorage.setItem('zhibo_house_right',data.lid);
-                    location.href = "http://127.0.0.2/live/"+data.lid+".html";
+                    location.href = "/live/"+data.lid+".html";
                 }else{
                     alert(data.info);
                 }
