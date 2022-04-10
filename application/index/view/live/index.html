@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$data['lid']}号直播房间</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link rel="icon" type="image/x-icon" href="__PC_IMG__/icon/favicon32.ico">
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/bootstrap.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/font-awesome.min.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/common.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/index.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/danmaku.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/chat.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/skins/index.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/live_win.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/pay.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/tag_recommend.css?ver=1.01" >
+
+
+
+
+    <script type="text/javascript" src="__PC_JS__/jquery.min.js"></script>
+    <script>
+        var enter_right = sessionStorage.getItem('zhibo_house_right');
+        var lid = {$lid};
+        if(!enter_right){
+            //没有进入该房间的权限，跳出
+            location.href = '/live/enter_house?lid='+lid;
+        }else{
+            //验证该房间是否可以进入
+            if(lid != enter_right){
+                location.href = '/live/enter_house?lid='+lid;
+            }
+
+
+        }
+    </script>
+</head>
+
+<body>
+<!-- header -->
+<section class="header" id="header">
+    <!-- live3-header1.0 布局 -->
+    <nav class='header-nav'>
+        <a id='header-logo' class='header-logo' href="#"></a>
+        <span class='header-divide'>&#124;</span>
+
+        <div class='header-menu header-menu-right'>
+                <span id='user-avatar' class='user-avatar'>
+                    <span class='user-name'>elevengong</span>
+                </span>
+
+        </div>
+    </nav>
+</section>
+<div class="fixedbar"></div>
+<div class="banner" id="banner" style="background-image: url('/static/pc/images/live_banner.jpg');"></div>
+<!-- header -->
+
+<div class="live-container style-default" id="live_container">
+    <div class="live-platform container">
+        <div class="main">
+            <div class="left view" id="left_view">
+                <div class="view-title" id="view_title">
+                    <div class="title-info">
+                        <div class="title-text style-default" id="title_text">
+                        </div>
+                        <div class="guest-info">
+                            <!--专题：-->
+                            <!--<a id="live_subject" href="" target="_blank" style="display: none;"></a>-->
+                            直播：{$data.live_name}
+                            <span class="guest-name" id="guest_name"></span>
+                            <span class="banner-number-item" id="banner_watch">
+                                    <i class="fa fa-eye person" title="在线人数"></i>
+                                    <span class="person-count watch-person" id="banner_watch_num">1</span>
+                                </span>
+                            <!--<span class="banner-number-item" id="banner_comment">-->
+                            <!--<i class="fa fa-commenting" title="评论数"></i>-->
+                            <!--<span class="comment-count" id="comment_count">-</span>-->
+                            <!--</span>-->
+                        </div>
+                    </div>
+
+                </div>
+                <script src="//cdn.jsdelivr.net/npm/xgplayer/browser/index.js" charset="utf-8"></script>
+                <script src="//cdn.jsdelivr.net/npm/xgplayer-flv.js/browser/index.js" charset="utf-8"></script>
+                <div id="J_prismPlayer" class="prism-player">
+                    <div id="mse"></div>
+                </div>
+                <script>
+                    var player = new FlvJsPlayer({
+                        "id": "mse",
+                        "playsinline": true,
+                        "url": "{$data.live_source}",
+                        "width": '100%',
+                        "height": 'auto',
+                        "autoplay": true,
+                        "isLive" : true
+                    });
+
+
+                </script>
+
+            </div>
+            <!-- 标签 -->
+
+        </div>
+
+        <div class="right talk" id="right_view">
+            <!--聊天室-->
+            <div class="chat-wrapper">
+
+                <div id="chat_head">
+
+                    <div class="chat-menu" id="chat_menu">
+                        <div class="menu-card style-default style-yellow">
+                            <div class="chatroom-switch on" id="chat_button">聊天</div>
+
+                            <div class="chatroom-switch" id="menu_watch">
+                                <ul id="menu_watch_ul">
+                                    <li class="menu-watch-li">
+                                        <span>在线人数</span>
+                                        <span class="watch-person" id="watch-person">1</span>
+                                    </li>
+                                    <!--<li class="menu-watch-li unshow">-->
+                                        <!--<span>同时在线</span>-->
+                                        <!--<span class="live-person">-</span>-->
+                                    <!--</li>-->
+                                    <!--<li class="menu-watch-li">-->
+                                        <!--<span>点赞数</span>-->
+                                        <!--<span class="approve-count">-</span>-->
+                                    <!--</li>-->
+                                    <!--
+                                    <li class="menu-watch-li">
+                                        <span>点此参与抽奖</span>
+                                    </li>-->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="menu-list" id="chat_menu_list">
+                            <a class="btn menu-item style-default style-yellow on" data-type="0">全部</a>
+                            <a class="btn menu-item style-default style-yellow" data-type="1">提问</a>
+                            <a class="btn menu-item style-default style-yellow" data-type="2">礼物</a>
+                            <a class="btn menu-item style-default style-yellow" data-type="3">管理</a>
+                            <a class="btn menu-item style-default style-yellow" data-type="4">系统</a>
+                            <!--移动端关闭按钮-->
+                            <div id="phone_close"></div>
+                            <!--播报-->
+
+                        </div>
+                    </div>
+
+                    <!--小公告-->
+                    <div id="chat_notice1" style="display: none;">
+                        <div class='winner' id='winner' style="font-size: 14px;font-weight: bold;">
+                            <span>本题获奖观众:未产生</span>
+                            <!--<a>[详情]</a>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-container chat-area" id="chat_container">
+                    <!--聊天互动区-->
+                    <div id="chat" class="chat-main-none">
+                        <!--全部-->
+                        <div class="chat-main container-chat-item" id="container_chat_all">
+                            <!--<div class="msg-item 5ba5020acbe9141cf65edcdd 5c0a730f0feb6a9130342979" id="5c0a730f0feb6a9130342979"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl"><span class="name guest-name" title="不会无罪（72033）">不会无罪</span><span class="uid" title="不会无罪（72033）">（72033）</span></div></div><div class="msg-detail-con"><div class="msg-detail-main">原唱翻唱秋秋的</div></div></div></div>-->
+                            <!--<div class="msg-item 576cee55b4d6627b2a40a01f 5c405fafff709179b7175666" id="5c405fafff709179b7175666"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl admin"><span class="name" title="秋秋（10001）">秋秋</span><span class="uid" title="秋秋（10001）">（10001）</span></div></div><div class="msg-detail-con admin"><div class="msg-detail-main">改用B站播放器了，无广告很清晰哦~</div></div></div></div>-->
+
+                        </div>
+
+                    </div>
+
+                    <!--弹幕设置-->
+
+                    <!--表情设置-->
+
+                    <!--礼物设置-->
+
+
+                <div class="chat-controls" id="chat_controls">
+
+                    <div class="chat-controls-edit clearfix">
+
+                        <div class="edit-area fl">
+                            <input id="messageInput" class="form-control chat-input" placeHolder="参与聊天" maxlength="300" autocomplete="off">
+
+
+                        </div>
+                        <div class="send-area fl" id="send_area">
+                            <!--<input id="chat_send" class="chat-submit style-default style-yellow" type="button"-->
+                                   <!--value="发送">-->
+                            <div class="approve-box">
+                                <!--<i class="fa fa-thumbs-up approve style-default style-yellow" id="send_approve" title="点赞"></i>-->
+                                <!--<img src="/img/newlive/approve-yellow.png" class="approve" id="send_approve" title="点赞">-->
+                                <a class="approve style-default style-yellow" id="send_approve">
+                                    发送
+                                </a>
+                                <!--<div class="approve-box-count approve-count style-default style-yellow"-->
+                                     <!--id="approve_win">0-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div id="loginWrapper">-->
+                    <!--<p id="chat_info" class="chat-info">正在链接服务器...</p>-->
+                <!--</div>-->
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<section class="footer" id="footer">
+    <div class='copyRight'>
+        <p class='copyRight-content container live-footer'>&copy; 2022 直播间</p>
+    </div>
+</section>
+
+
+
+
+<script>
+    var userinfo = localStorage.getItem('zhibo_sign');
+    if(userinfo){
+        var info = JSON.parse(userinfo);
+        $(".user-name").text(info.name);
+    }
+
+    chat_scroll();
+
+    var ws = new WebSocket("ws://127.0.0.1:8282");
+    var room = 'room_'+'{$lid}';
+    ws.onmessage = function (e) {
+        console.log(e);
+        let message = JSON.parse(e.data);
+        switch(message.type){
+            case "text":
+                $("#count").text(message.count);
+                if(message.data != ''){
+                    let only_sign = 'sign'+message.time+'_'+lid;
+                    $("#banner_watch_num").text(message.count);
+                    $("#watch-person").text(message.count);
+                    $("#container_chat_all").append('<div class="msg-item" id="'+only_sign+'"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl"><span class="name guest-name">'+message.sent_name+'</span><span class="uid">（'+message.send_time+'）</span></div></div><div class="msg-detail-con"><div class="msg-detail-main">'+message.data+'</div></div></div></div>');
+                    chat_scroll();
+                }
+                return;
+        }
+    }
+    $("#send_approve").click(function () {
+
+        let text = $("#messageInput").val();
+        if(text == ''){
+            return;
+        }
+        let message = '{"data":"'+text+'","type":"say","group":"'+room+'","sent_name":"'+info.name+'"}';
+        $("#messageInput").val("");
+        ws.send(message);
+    });
+
+    function chat_scroll() {
+        var divscll = document.getElementById('container_chat_all');
+        divscll.scrollTop = divscll.scrollHeight;
+    }
+</script>
+
+
+
+
+</body>
+
+</html>
