@@ -12,16 +12,63 @@
     <link rel="icon" type="image/x-icon" href="__PC_IMG__/icon/favicon32.ico">
 
     <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/bootstrap.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/common.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/login.css?v=190808" media="all"/>
 
     <script type="text/javascript" src="__PC_JS__/jquery.min.js"></script>
 </head>
 <body>
 
-<div style="margin-top: 100px;">
-    请输入{$lid}号房间密码<input id="pwd" type="password">
-    <input id="enter_house" type="button" value="进入">
+<!--<div style="margin-top: 100px;">-->
+    <!--请输入{$lid}号房间密码<input id="pwd" type="password">-->
+    <!--<input id="enter_house" type="button" value="进入">-->
 
-</div>
+<!--</div>-->
+
+
+<header type="simple">
+    <div class="signtop">
+        <div class="container">
+            <a class="logo" href="#">
+                <img src="/static/pc/images/header_logo_pc.png">
+            </a>
+        </div>
+    </div>
+</header>
+<div class="fixedbar"></div>
+
+<section id="container">
+    <div id="output"></div>
+    <div class="gradient"></div>
+
+    <!--  -->
+    <section id="login" class="mainOp">
+        <div class="login-tit">
+            <span><b><script>window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"]["\x77\x72\x69\x74\x65"]('\u8bf7\u8f93\u5165');</script>{$lid}<script>window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"]["\x77\x72\x69\x74\x65"]('\u53f7\u623f\u95f4\u5bc6\u7801');</script></b></span>
+
+        </div>
+        <div class="login-left">
+            <div class="ctl-group">
+                <div class="edit-box ctl-bar">
+                    <input type="password" class="wbox info" id="pwd" placeholder="" name="password">
+                    <div class="alert-warn"></div>
+                </div>
+            </div>
+            <div class="ctl-group" id="login_input_area">
+                <a class="btn-submit btn btn-primary" id="login_submit">
+                    <span class="login-btn-txt"><script>window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"]["\x77\x72\x69\x74\x65"]('\u767b\u5f55');</script>{$lid}<script>window["\x64\x6f\x63\x75\x6d\x65\x6e\x74"]["\x77\x72\x69\x74\x65"]('\u53f7\u623f\u95f4');</script></span>
+                </a>
+            </div>
+
+
+        </div>
+    </section>
+
+    <!--  -->
+
+</section>
+<div class="h100"></div>
+<footer type="simple"></footer>
 
 
 <script>
@@ -44,7 +91,7 @@
         });
     }
 
-    $("#enter_house").click(function () {
+    $("#login_submit").click(function () {
         let pwd = $("#pwd").val();
         if(pwd == ''){
             alert("请输入密码");

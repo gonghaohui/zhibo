@@ -2032,7 +2032,7 @@ a:hover{
 
 @media screen and (max-width: 1500px) and (min-width: 1366px){
     #chat{
-        height: 476px;
+        height: 574px;
     }
     #brief,#ranklist{
         height: 500px;
@@ -2049,7 +2049,7 @@ a:hover{
 }
 @media screen and (max-width: 1365px) and (min-width: 1250px){
     #chat{
-        height: 425px;
+        height: 518px;
     }
     #brief,#ranklist{
         height: 449px;

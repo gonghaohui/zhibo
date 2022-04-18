@@ -81,7 +81,7 @@ return [
     // URL参数方式 0 按名称成对解析 1 按顺序解析
     'url_param_type'         => 0,
     // 是否开启路由
-    'url_route_on'           => true,
+    'url_route_on'           => defined('BIND_MODULE') && defined('START_BUSINESS') ? false : true,
     // 路由使用完整匹配
     'route_complete_match'   => false,
     // 路由配置文件（支持配置多个）
@@ -362,50 +362,6 @@ return [
         'domain'           => '',//访问域名
     ],
 
-    //采集网站
-    'caiji_webs' => [
-        '1' => ['web_type' => '1','site' => 'jb51.net','name' => '脚本之家']
-    ],
-
-    //生成sitemap.xml用这个域名
-    'domain' => 'https://www.scriptjp.com',
-
-    'tools' => [
-        //HTML/JS转换工具
-        'html_js'  => ['action' => 'html_js','title' => 'HTML/JS変換ツール','keywords' => 'html変換js、js変換html、htmlコード変換ツール、js変換ツール', 'description' => 'HTMLコンテンツをjs出力に、またはその逆に変換できます。'],
-
-        //JS/HTML格式化工具
-        'js_format' => ['action' => 'js_format', 'title' => 'JS/HTMLフォーマット','keywords' => 'jsオンラインフォーマット、htmlオンラインフォーマット、jsコードフォーマット','description' => '乱雑なjsおよびhtmlコードは、分岐、圧縮、暗号化でき、きれいに表示できます。'],
-
-        //大小写首字母大写转换工具
-        'lowercase_uppercase' =>['action' => 'lowercase_uppercase','title' => '大文字小文字変換ツール','keywords' => '大文字と小文字の変換、小文字から大文字、大文字から小文字、英語の大文字と小文字の変換、最初の文字の大文字の変換','description' => '大文字小文字変換ツールは、単語、段落、文、記事の英語の大文字小文字変換を実現できます。すべて大文字を小文字に変換したり、すべて小文字を大文字に変換したり、最初の文字をに変換したりすることもできます。'],
-
-        //CSS代码格式化工具
-        'css_format' => ['action' => 'css_format','title' => 'CSSコードの圧縮/解凍フォーマット','keywords' => 'Css圧縮、Cssフォーマット、cssコードフォーマット、cssオンライン圧縮ツール', 'description' => '圧縮CSSは体積を減少させ、伝送速度を速くし、CSSをオンラインで作成しやすく、読みやすいようにフォーマットする。'],
-
-        //MD5加密
-        'md5' => ['action' => 'md5','title' => 'MD5オンライン暗号化','keywords' => 'md5暗号化、md5暗号化アルゴリズム、md5暗号化ツール、無料のMD5オンライン暗号化、MD5オンラインクエリ','description' => 'このツールは、32ビット、16ビットのMD5暗号化を提供できます'],
-
-        //URL网址16进制加密工具
-        'url' => ['action' => 'url','title' => 'URL16進暗号化','keywords' => 'URL暗号化、アドレス暗号化、URLアドレス暗号化','description' => 'URLを16進コード形式に変換します。これは、暗号化の直後にアクセスできます。' ],
-
-        //UTF-8编码转换工具
-        'utf8' => ['action' => 'utf8','title' => 'UTF-8エンコーディング変換ツール','keywords' => 'UTF-8エンコーディング変換、オンラインUTF-8エンコーディング、utf8オンラインエンコーディング','description' => 'UTF-8エンコーディングオンライン変換ツールは、日本語をUTF-8エンコーディングに変換するのに役立ちます。また、UTF-8エンコーディングを日本語に復元することもサポートしています。' ],
-
-        //字数统计工具
-        'count' => ['action' => 'count','title' => '単語カウントツール','keywords' => '文字数をオンラインで計算します、文字の数を計算します、英語の数を計算します','description' => 'これは、単語や文字の数をすばやく数えるための小さなツールです' ],
-
-        
-
-
-    ],
-    //'url' => ['action' => '','title' => '','keywords' => '','description' => '' ],
-
-    //下载图片中转服务器地址
-    'download_img_server' => [
-        'url'    => 'http://182.254.225.196/dl.php',
-        'domain' => 'http://182.254.225.196/'
-    ],
 
     'seo_api_key' => [
         'bing' => 'b792c3d8492c48119bd5aa56046fe307'

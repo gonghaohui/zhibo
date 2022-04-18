@@ -21,15 +21,15 @@
                         <input type="text" id="explorer_key" class="layui-input" name="explorer_key" placeholder="浏览器标识"/>
                     </div>
                 </div>
-                <div class="layui-inline">
-                    <div class="layui-input-inline" style="width: 100px;">
-                        <select name="online_status" id="online_status" class="layui-input">
-                            <option value="" selected="selected">在线状态</option>
-                            <option value="0">不在线</option>
-                            <option value="1">在线</option>
-                        </select>
-                    </div>
-                </div>
+                <!--<div class="layui-inline">-->
+                    <!--<div class="layui-input-inline" style="width: 100px;">-->
+                        <!--<select name="online_status" id="online_status" class="layui-input">-->
+                            <!--<option value="" selected="selected">在线状态</option>-->
+                            <!--<option value="0">不在线</option>-->
+                            <!--<option value="1">在线</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
                 <div class="layui-inline">
                     <div class="layui-input-inline" style="width: 100px;">
                         <select name="chat_status" id="chat_status" class="layui-input">
@@ -109,10 +109,10 @@
                 , {field: 'name', width: '' ,title: '呢称', align: 'left'}
                 , {field: 'explorer_key', width: '' ,title: '浏览器标识', align: 'left'}
                 , {field: 'online_status', width: 120 ,title: '在线状态', align: 'center',templet:function (d) {
-                        if(d.status == 1){
+                        if(d.online_status == 1){
                             return '<em style="color: green;font-style: normal;">在线</em>';
                         }else{
-                            return '<em style="color: #009688;font-style: normal;">不在线</em>';
+                            return '';
                         }
 
                     }}

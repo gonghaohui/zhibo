@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 
+use Redis;
 use think\Db;
 
 
@@ -15,12 +16,21 @@ class Live extends PcBase
         if(empty($res)){
             echo "没有该直播间";exit;
         }
+
+        //如果直播间没有开启
         if($res['status'] == 0){
-            echo "该直播间已关闭";exit;
+            $res['live_source'] = '';
         }
+
 
         $this->assign('lid',$lid);
         $this->assign('data',$res);
+
+        $redis = new Redis();
+        $redis->connect('127.0.0.1',6379);
+        $online_count = $redis->get('room_'.$lid.'_online_count');
+        $online_count = $online_count?$online_count:1;
+        $this->assign('online_count',$online_count);
         return $this->fetch('live/index');
     }
 
@@ -60,6 +70,165 @@ class Live extends PcBase
 
     }
 
+    /**
+     * 检测直播间状态
+     * @return \think\response\Json
+     */
+    public function check_zhibo_status(){
+        if(request()->isPost()){
+            $lid = input('lid');
+            if(!$lid){
+                return json(['code'=>100,'info'=>'error']);
+            }
+
+            $res = Db::name('live_house')->where('lid',$lid)->find();
+            if(empty($res)){
+                return json(['code'=>100,'info'=>'none house']);
+            }
+            if($res['status'] == 0){
+                //直播已关闭
+                return json(['code'=>300,'info'=>'','url'=>'','online_user'=> 1]);
+
+            }else{
+                //正在直播当中
+//                $times = Cache::get('times');
+//                if(!$times){
+//                    $times = 1;
+//                }
+
+//                $online_num = $this->online_info_save_redis($lid)*$times;
+                return json(['code'=>200,'info'=>'','url'=>$res['live_source'],'online_num'=> 1]);
+            }
+        }
+    }
+
+    /**
+     * 保存用户发送的消息到redis,并调用禁词，返回处理后的消息
+     * @return \think\response\Json
+     */
+    public function save_message(){
+        if(request()->isPost()){
+            $lid = input('lid');
+            $message = input('message');
+            $username = input('username');
+            $uid = input('uid');
+
+            $user = Db::name('users')->where('uid',$uid)->find();
+            if($user['chat_status'] == 0){
+                //已禁言
+                return json(['code'=>300,'msg'=>'你已经被禁言了！','chat_status'=>0]);
+            }else{
+                $redis = new Redis();
+                $redis->connect('127.0.0.1',6379);
+                //消息禁词处理
+                $forbiddenWords = $redis->get('forbidden_words');
+                if($forbiddenWords){
+                    $words = json_decode($forbiddenWords,true);
+                    foreach ($words as $word){
+                        $word_len = mb_strlen($word);
+                        switch ($word_len){
+                            case 1:
+                                $stars = '*';
+                                break;
+                            case 2:
+                                $stars = '**';
+                                break;
+                            case 3:
+                                $stars = '***';
+                                break;
+                            case 4:
+                                $stars = '****';
+                                break;
+                            case 5:
+                                $stars = '*****';
+                                break;
+                            default:
+                                $stars = '**';
+                        }
+                        $message = str_replace($word,$stars,$message);
+                    }
+                }
+
+                $time = time();
+                $unique_sign = 's'.$time.$uid;
+                $data = array(
+                    'type' => 1,  //0:admin 1:会员
+                    'message' => $message,
+                    'name' => $username,
+                    'unique_sign' => $unique_sign,
+                    'time' => date("Y-m-d H:i:s",$time)
+                );
+                $string = json_encode($data);
+                $redis->rPush('room_'.$lid.'_message',$string);
+
+                return json(['code'=>200,'unique_sign'=>$unique_sign,'message'=>$message]);
+            }
+
+        }
+    }
+
+    /**
+     * 保存当前直播间的在线人数
+     */
+    public function save_room_online_count(){
+        if(request()->isPost()){
+            $lid = input('lid');
+            $count = input('count');
+            $redis = new Redis();
+            $redis->connect('127.0.0.1',6379);
+            $redis->set('room_'.$lid.'_online_count',$count);
+            return json(['code'=>200]);
+        }
+    }
+
+    /**
+     * 获取当前房间的聊天记录
+     * @return \think\response\Json
+     */
+    public function get_message_list(){
+        if(request()->isPost()){
+            $lid = input('lid');
+            $redis = new Redis();
+            $redis->connect('127.0.0.1',6379);
+            $messages = $redis->lRange('room_'.$lid.'_message',0,-1);
+//            print_r($messages);
+
+            return json(['code'=>200,'messages'=>$messages]);
+        }
+    }
+
+    /**
+     * 加载当前直播间会员列表
+     */
+    public function load_users(){
+        if(request()->isPost()){
+            $lid = input('lid');
+            $total_num = input('num');
+            $redis = new Redis();
+            $redis->connect('127.0.0.1',6379);
+            $userList = $redis->sMembers('room_'.$lid.'_online_list');
+            $fakeUserList = array();
+
+            $realOnlineUserCount = count($userList);
+            //前台最多显示100个
+            if($realOnlineUserCount < 100){
+                $left_num = $total_num - $realOnlineUserCount;
+                if($left_num > 0){
+                    $userString = $redis->get('fake_room_'.$lid.'_user_list');
+                    $fakeUserList = explode(',',$userString);
+
+                }
+            }
+
+            return json(['code'=>200,'userList'=>$userList,'fakeUserList'=>$fakeUserList]);
+        }
+
+    }
+
+    /**
+     * 自动创建用户
+     * @return \think\response\Json
+     */
     public function auto_create_new_user(){
         $userSign = $this->create_rand_user_sign();
         //入库

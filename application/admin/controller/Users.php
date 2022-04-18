@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\admin\model\UsersModel;
 use think\Db;
+use think\Cache;
 
 class Users extends Base
 {
@@ -23,9 +24,9 @@ class Users extends Base
             if(isset($explorer_key)&&$explorer_key!=""){
                 $map['explorer_key'] = ['like',"%" . $explorer_key . "%"];
             }
-            if(isset($online_status) && $online_status!=""){
-                $map['online_status'] = $online_status;
-            }
+//            if(isset($online_status) && $online_status!=""){
+//                $map['online_status'] = $online_status;
+//            }
             if(isset($chat_status) && $chat_status!=""){
                 $map['chat_status'] = $chat_status;
             }
@@ -38,6 +39,11 @@ class Users extends Base
             $usersModel = new UsersModel();
             $od="uid desc";
             $lists = $usersModel->getDatasByWhere($map, $Nowpage, $limits,$od);
+
+            foreach ($lists as $key => $list){
+//                Cache::has('uid_'.$list['uid']);
+                $lists[$key]['online_status'] = Cache::has('uid_'.$list['uid'])?1:0;
+            }
 
             return json(['code'=>220,'msg'=>'','count'=>$count,'data'=>$lists]);
         }

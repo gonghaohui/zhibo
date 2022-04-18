@@ -30,9 +30,9 @@ class LiveHouseModel extends Model
      */
     public function insertLiveHouse($param)
     {
-        $res = $this->save($param);
+        $res = $this->insertGetId($param);
         if($res){
-            return ['code' => 200, 'data' => '', 'msg' => '添加直播间成功'];
+            return ['code' => 200, 'data' => '', 'msg' => '添加直播间成功','lid' => $res];
         }else{
             return ['code' => 100, 'data' => '', 'msg' => '添加直播间失败'];
         }

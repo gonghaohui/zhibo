@@ -31,6 +31,16 @@
                         <button  class="layui-btn layui-btn-normal" id="empty"  lay-submit="" lay-filter="LAY-search">重置</button>
                     </div>
                 </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline" style="width: 260px;">
+                        <input type="text" id="website" class="layui-input" name="website" value="{$website}" placeholder="网站域名"/>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <div class="layui-input-inline" style="width: 100px !important;">
+                        <button class="layui-btn layui-btn-danger" id="change_domain">修改域名</button>
+                    </div>
+                </div>
             </div>
             <div>
                 <button class="layui-btn" data-type="add" onclick="wk.layer_show('添加直播间','{:url('liveHouseAdd')}')">
@@ -95,6 +105,8 @@
                 , {field: 'live_name', width: '' ,title: '房间名', align: 'left'}
                 , {field: 'live_source', width: '' ,title: '直播源地址', align: 'left'}
                 , {field: 'live_pwd', width: '' ,title: '房间密码', align: 'left'}
+                , {field: 'online_num', width: '', title: '当前在线人数', align: 'center'}
+                , {field: 'live_link', width: '' ,title: '观看地址', align: 'center'}
                 , {field: 'start_time', width: 160, title: '开播时间', align: 'center'}
                 , {field: 'top_message', width: '' ,title: '置顶消息', align: 'left'}
                 , {field: 'fake_online_user_num', width: '' ,title: '造假人数', align: 'left'}
@@ -117,6 +129,18 @@
 
 
     });
+
+    $("#change_domain").click(function () {
+        var domain = $("#website").val();
+        $.getJSON('{:url("edit_domain")}', {'domain' : domain}, function(res){
+            if(res.code == 200){
+                wk.success(res.msg,"layui.table.reload('LAY-table');")
+            }else if(res.code == 100){
+                wk.error(res.msg,"layui.table.reload('LAY-table');");
+            }
+        });
+    });
+
 
     /**
      * [del_word 删除禁词]

@@ -20,22 +20,23 @@
 </div>
 <input id="msg" type="text"><input id="send" type="button" value="发送">
 <script>
-    var ws = new WebSocket("ws://127.0.0.1:8282");
-
-    ws.onmessage = function (e) {
-        console.log(e.data);
-        let message = JSON.parse(e.data);
-        switch(message.type){
-            case "text":
-                $("#content").append('<p>'+message.data+'</p>');
-                return;
-        }
-    }
 
     $("#send").click(function () {
-        let text = $("#msg").val();
-        let message = '{"data":"'+text+'","type":"say"}';
-        ws.send(message);
+        $.ajax({
+            type: "POST",
+            url: "/chat/get_value",
+            data: {},
+            dataType: "json",
+            error: function () {
+            },
+            success: function (data) {
+                if(data.code == 200){
+
+                }else{
+
+                }
+            }
+        });
     });
 
 </script>

@@ -1,1 +1,307 @@
-aaaaaaaaaaaaa
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{$house['live_name']}</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="zh-cn"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <link rel="icon" type="image/x-icon" href="__PC_IMG__/icon/favicon32.ico">
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/bootstrap.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/font-awesome.min.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/common.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/index.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/danmaku.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/chat.css?ver=1.02" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/skins/index.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/live_win.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/pay.css?ver=1.01" >
+    <link rel="stylesheet" type="text/css" href="__PC_CSS__/zhibo/tag_recommend.css?ver=1.01" >
+    <link rel="stylesheet" href="__JS__/layui/css/layui.css" >
+
+
+    <script type="text/javascript" src="__PC_JS__/jquery.min.js"></script>
+    <script src="__JS__/layui/layui.js"></script>
+    <style>
+        .msg-item:hover{
+            /*background-color: #f2f2f2;*/
+            /*background-color:orange;*/
+        }
+        .del_button{
+            display: none;
+            float: right;
+            background: url(/static/admin/images/delete.png) no-repeat;
+            background-size:25px 25px;
+            cursor: pointer;
+            width: 25px;
+            height: 25px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="right talk" id="right_view">
+    <!--聊天室-->
+    <div class="chat-wrapper">
+
+        <div id="chat_head">
+
+            <div class="chat-menu" id="chat_menu">
+                <div class="menu-card style-default style-yellow">
+                    <div class="chatroom-switch on" id="chat_button">聊天</div>
+                    <div class="chatroom-switch" id="menu_watch">
+                        <ul id="menu_watch_ul">
+                            <li class="menu-watch-li">
+                                <span>在线人数</span>
+                                <span class="watch-person" id="watch-person">1</span>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="menu-list" id="chat_menu_list">
+                    <div style="display: -webkit-box;word-break: break-word;line-height: 27px;">
+                        <span style="color: red;">公告:</span>{$house['top_message']}
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="chat-container chat-area" id="chat_container">
+            <!--聊天互动区-->
+            <div id="chat" class="chat-main-none"  style="display: block;">
+                <div class="chat-main container-chat-item" id="container_chat_all">
+
+
+                    <!--<div class="msg-item" id="5c0a730f0feb6a9130342979">-->
+                        <!--<div class="msg-detail">-->
+                            <!--<div class="msg-detail-name clearfix">-->
+                                <!--<div class="left fl">-->
+                                    <!--<span class="name guest-name" title="不会无罪（72033）">不会无罪</span>-->
+                                    <!--<span class="uid" title="不会无罪（72033）">（2022-04-18 03:55:02）</span>-->
+                                    <!--<span class="del_button" onclick="del_message('5c0a730f0feb6a9130342979')">DEL</span>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="msg-detail-con"><div class="msg-detail-main">原唱翻唱秋秋的</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="msg-item 576cee55b4d6627b2a40a01f 5c405fafff709179b7175666" id="5c405fafff709179b7175666"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl admin"><span class="name" title="秋秋（10001）">秋秋</span><span class="uid" title="秋秋（10001）">（10001）</span></div></div><div class="msg-detail-con admin"><div class="msg-detail-main">改用B站播放器了，无广告很清晰哦~</div></div></div></div>-->
+
+                </div>
+            </div>
+
+
+            <div class="chat-controls" id="chat_controls">
+
+                <div class="chat-controls-edit clearfix">
+
+                    <div class="edit-area fl">
+                        <input id="messageInput" class="form-control chat-input" placeHolder="参与聊天" maxlength="300" autocomplete="off">
+
+
+                    </div>
+                    <div class="send-area fl" id="send_area">
+                        <div class="approve-box">
+                            <a class="approve style-default style-yellow" id="send_approve">
+                                发送
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var ws = new WebSocket("ws://127.0.0.1:8282");
+    var room = 'room_'+'{$house['lid']}';
+    var lid = {$house['lid']};
+    var username = "{$house['admin_nickname']}";
+    var fake_num = {$house['fake_online_user_num']};
+
+    first_send(0,username);
+    get_message_list(lid);
+
+
+    function get_message_list(lid) {
+        $.ajax({
+            type: "POST",
+            url: "/live/get_message_list",
+            data: {lid:lid},
+            dataType: "json",
+            error: function () {
+                // layer.alert("error");
+            },
+            success: function (data) {
+                if(data.code == 200){
+                    // alert(data.messages[0].message);
+                    // let msg = data.messages;
+                    for(var i=0;i<data.messages.length;i++){
+                        let obj = JSON.parse(data.messages[i]);
+                        if(obj.type == 1){
+                            $("#container_chat_all").append('<div class="msg-item" id="'+obj.unique_sign+'" data-message="'+obj.message+'" data-name="'+obj.name+'" data-type="'+obj.type+'" data-time="'+obj.time+'"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl"><span class="name guest-name">'+obj.name+'</span><span class="uid">（'+obj.time+'）</span><span class="del_button" onclick="del_message(\''+obj.unique_sign+'\')"></span></div></div><div class="msg-detail-con"><div class="msg-detail-main">'+obj.message+'</div></div></div></div>');
+                        }else{
+                            $("#container_chat_all").append('<div class="msg-item" id="'+obj.unique_sign+'" data-message="'+obj.message+'" data-name="'+obj.name+'" data-type="'+obj.type+'" data-time="'+obj.time+'"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl admin"><span class="name">'+obj.name+'</span><span class="uid">（'+obj.time+'）</span><span class="del_button" onclick="del_message(\''+obj.unique_sign+'\')"></span></div></div><div class="msg-detail-con admin"><div class="msg-detail-main">'+obj.message+'</div></div></div></div>');
+                        }
+                    }
+                    chat_scroll();
+                }
+            }
+        });
+
+    }
+
+    function chat_scroll() {
+        let divscll = document.getElementById('container_chat_all');
+        divscll.scrollTop = divscll.scrollHeight;
+    }
+
+    ws.onmessage = function (e) {
+        // console.log(e);
+        let message = JSON.parse(e.data);
+        switch(message.type){
+            case "text":
+                // $("#count").text(message.count);
+                if(message.data != ''){
+                    // $("#banner_watch_num").text(message.count);
+                    // $("#watch-person").text(message.count);
+                    if(message.uid == 0){
+                        $("#container_chat_all").append('<div class="msg-item" id="'+message.unique_sign+'" data-type="0" data-message="'+message.data+'" data-name="'+message.sent_name+'" data-uid="'+message.uid+'" data-time="'+message.send_time+'"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl admin"><span class="name">'+message.sent_name+'</span><span class="uid">（'+message.send_time+'）</span><span class="del_button" onclick="del_message(\''+message.unique_sign+'\')"></span></div></div><div class="msg-detail-con admin"><div class="msg-detail-main">'+message.data+'</div></div></div></div>');
+                    }else{
+                        $("#container_chat_all").append('<div class="msg-item" id="'+message.unique_sign+'" data-type="1" data-message="'+message.data+'" data-name="'+message.sent_name+'" data-uid="'+message.uid+'" data-time="'+message.send_time+'"><div class="msg-detail"><div class="msg-detail-name clearfix"><div class="left fl"><span class="name guest-name">'+message.sent_name+'</span><span class="uid">（'+message.send_time+'）</span><span class="del_button" onclick="del_message(\''+message.unique_sign+'\')"></span></div></div><div class="msg-detail-con"><div class="msg-detail-main">'+message.data+'</div></div></div></div>');
+                    }
+                    chat_scroll();
+                }
+                return;
+        }
+    };
+
+    $("#send_approve").click(function () {
+
+        let text = $("#messageInput").val();
+        if(text == ''){
+            return;
+        }
+
+        let handle = save_message(text,username);
+        if(handle.chat_status == 0){
+            //已禁言
+            alert('你已经被禁言了!');
+
+        }else{
+            let message = '{"data":"'+handle.h_message+'","type":"say","group":"'+room+'","sent_name":"'+username+'","unique_sign":"'+handle.unique_sign+'","uid":"0","fake_num":"'+fake_num+'"}';
+            $("#messageInput").val("");
+
+            ws.send(message);
+        }
+    });
+
+    function save_message(message,username){
+        if(!message){return;}
+        var h_message = '';
+        var us = '';
+        var chat_status = 1;
+        $.ajax({
+            type: "POST",
+            url: "/live/save_message",
+            data: {lid:lid,message:message,username:username,uid:0},
+            dataType: "json",
+            async:false,//同步
+            error: function () {
+            },
+            success: function (data) {
+                if(data.code == 200){
+                    h_message = data.message;
+                    us = data.unique_sign;
+                }else{
+                    chat_status = data.chat_status;
+                }
+            }
+        });
+        return {"h_message":h_message,"unique_sign":us,"chat_status":chat_status};
+    }
+
+    function first_send(uid,name) {
+        let first_message = '{"type":"first","group":"'+room+'","sent_name":"'+name+'","uid":"'+uid+'","lid":"'+lid+'","fake_num":"'+fake_num+'"}';
+
+        ws.onopen = function(evt){
+            ws.send(first_message);
+        };
+
+    }
+
+    layui.config({
+        base: '/src/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+        , formSelects: 'formSelects-v4'
+        , dropdown: 'dropdown'
+    }).use(['index','dropdown','formSelects']),function(){
+        var formSelects = layui.formSelects
+    };
+
+    function del_message(target_id) {
+        layer.confirm('确认删除该记录吗?', {icon: 7, title:'警告'}, function(index){
+            var t_type = $('#'+target_id).data('type');
+            var t_message = $('#'+target_id).data('message');
+            var t_name = $('#'+target_id).data('name');
+            var t_time = $('#'+target_id).data('time');
+
+            $.ajax({
+                type: "POST",
+                url: "/live/del_message",
+                data: {lid:lid,type:t_type,message:t_message,name:t_name,unique_sign:target_id,time:t_time},
+                dataType: "json",
+                error: function () {
+                },
+                success: function (data) {
+                }
+            });
+            $('#'+target_id).css('display','none');
+
+            //删除消息后广播
+            let delete_message = '{"type":"del","group":"'+room+'","lid":"'+lid+'","unique_sign":"'+target_id+'"}';
+            ws.send(delete_message);
+            layer.close(index);
+        });
+
+
+    }
+
+
+    $(function () {
+        $(document).delegate("#container_chat_all .msg-item","mouseover",function(){
+            var forkIndex = $(this).index();
+            // $('.msg-item').eq(forkIndex).css("background-color",'orange');
+            $('.msg-item .del_button').eq(forkIndex).css("display","block")
+        });
+
+        $(document).delegate("#container_chat_all .msg-item","mouseout",function(){
+            var forkIndex = $(this).index();
+            // $('.msg-item').eq(forkIndex).css("background-color","");
+            $('.msg-item .del_button').eq(forkIndex).css("display","none")
+        });
+    });
+
+
+</script>
+
+
+
+
+</body>
+</html>

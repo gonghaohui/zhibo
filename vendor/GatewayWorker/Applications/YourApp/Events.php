@@ -20,7 +20,7 @@
 //declare(ticks=1);
 
 use \GatewayWorker\Lib\Gateway;
-
+//use think\Cache;
 /**
  * 主逻辑
  * 主要是处理 onConnect onMessage onClose 三个方法
@@ -60,6 +60,8 @@ class Events
        if(!$message_data){
            return;
        }
+       // 设置session，标记该客户端已经登录
+//       $_SESSION['uid'] = $data['uid'];
 
        switch($message_data['type']){
            case "say":
@@ -68,12 +70,14 @@ class Events
                $allClient = Gateway::getClientSessionsByGroup($message_data['group']);
                $data = [
                    'type' => 'text',
-                   'id'   => $client_id,
+//                   'id'   => $client_id,
                    'data' => $message_data['data'],
                    'count' => count($allClient),
                    'sent_name' => $message_data['sent_name'],
-                   'send_time' => date("Y-m-d H:i:s",time()),
-                   'time' =>time()
+//                   'send_time' => date("Y-m-d H:i:s",time()),
+                   'time' =>time(),
+                   'unique_sign' => $message_data['unique_sign'],
+                   'uid' => $message_data['uid']
                ];
                Gateway::sendToGroup($message_data['group'], json_encode($data));
 //               Gateway::sendToAll(json_encode($data));
@@ -92,7 +96,12 @@ class Events
     */
    public static function onClose($client_id)
    {
+//       require_once '../../../../thinkphp/library/think/Cache.php';
        // 向所有人发送 
 //       GateWay::sendToAll("$client_id logout\r\n");
+//       new Cache();
+//       Cache::set('name',$client_id);
+
+
    }
 }

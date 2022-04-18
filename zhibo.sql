@@ -11,7 +11,7 @@
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 10/04/2022 20:01:38
+ Date: 19/04/2022 01:18:26
 */
 
 SET NAMES utf8mb4;
@@ -41,7 +41,7 @@ CREATE TABLE `think_admin`  (
 -- ----------------------------
 -- Records of think_admin
 -- ----------------------------
-INSERT INTO `think_admin` VALUES (1, 'admin', '17c8eeaf652fdb28e49df45e6f0842d8', '/uploads/face/20181116/63a0f7d99db522e14873f9b0b4e7ff85.png', 1846, '127.0.0.1', 1649582628, 'PC', '13057633120', 1, 1, 1523792661, 1636335525);
+INSERT INTO `think_admin` VALUES (1, 'admin', '17c8eeaf652fdb28e49df45e6f0842d8', '/uploads/face/20181116/63a0f7d99db522e14873f9b0b4e7ff85.png', 1851, '127.0.0.1', 1650027801, 'PC', '13057633120', 1, 1, 1523792661, 1636335525);
 INSERT INTO `think_admin` VALUES (63, 'kevin', '4dc94196fd5bd03a167758456ba47fb9', '/uploads/face/20181116/8470a4efd862cbad73754f9ca7a5596f.png', 285, '127.0.0.1', 1542159154, 'SDSA', '13057633125', 1, 2, 1523792666, 1542335768);
 
 -- ----------------------------
@@ -84,7 +84,7 @@ CREATE TABLE `think_article`  (
   `music` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '音频',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `a_title`(`title`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_article
@@ -102,7 +102,7 @@ CREATE TABLE `think_article_cate`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   `status` tinyint(1) NULL DEFAULT NULL COMMENT '状态  1：开启  2：禁用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文章分类表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_article_cate
@@ -312,7 +312,7 @@ INSERT INTO `think_auth_rule` VALUES (62, 'admin/config/add_config', '添加配�
 INSERT INTO `think_auth_rule` VALUES (63, 'admin/config/edit_config', '编辑配置', 1, 1, 'fa fa-ban', '', 61, 50, 1479908607, 1540435042);
 INSERT INTO `think_auth_rule` VALUES (64, 'admin/config/del_config', '删除配置', 1, 1, 'fa fa-ban', '', 61, 50, 1479908607, 1540435049);
 INSERT INTO `think_auth_rule` VALUES (65, 'admin/config/status_config', '配置状态', 1, 1, 'fa fa-ban', '', 61, 50, 1479908607, 1540435066);
-INSERT INTO `think_auth_rule` VALUES (66, 'admin/config/group', '网站配置', 1, 1, 'fa fa-ban', '', 1, 50, 1480316438, 1540435096);
+INSERT INTO `think_auth_rule` VALUES (66, 'admin/config/group', '网站配置', 1, 2, 'fa fa-ban', '', 1, 50, 1480316438, 1540435096);
 INSERT INTO `think_auth_rule` VALUES (85, 'admin/index/clear', '清除缓存', 1, 1, 'fa fa-ban', '', 66, 50, 1522485859, 1540435103);
 INSERT INTO `think_auth_rule` VALUES (91, 'admin/config/save', '保存配置', 1, 1, 'fa fa-ban', '', 66, 50, 1522824567, 1540435110);
 INSERT INTO `think_auth_rule` VALUES (92, 'admin/data/export', '备份表', 1, 1, 'fa fa-ban', '', 6, 50, 1523161011, 1540435145);
@@ -339,7 +339,7 @@ INSERT INTO `think_auth_rule` VALUES (169, 'admin/article/category_list', '文�
 INSERT INTO `think_auth_rule` VALUES (170, 'admin/caiji/data_list', '采集列表管理', 1, 2, 'fa fa-ban', '', 24, 6, 1628415403, 1628415403);
 INSERT INTO `think_auth_rule` VALUES (171, 'admin/articles/data_list', '文章列表', 1, 2, 'fa fa-ban', '', 24, 3, 1629017240, 1629017290);
 INSERT INTO `think_auth_rule` VALUES (172, 'admin/tags/data_list', '标签管理', 1, 2, 'fa fa-ban', '', 24, 7, 1629185488, 1629185725);
-INSERT INTO `think_auth_rule` VALUES (173, '#', '外链管理', 1, 1, 'fa fa-chain', '', 0, 6, 1629343028, 1629343177);
+INSERT INTO `think_auth_rule` VALUES (173, '#', '外链管理', 1, 2, 'fa fa-chain', '', 0, 6, 1629343028, 1629343177);
 INSERT INTO `think_auth_rule` VALUES (174, 'admin/link/data_list', '友情链接', 1, 1, 'fa fa-ban', '', 173, 10, 1629343150, 1629343150);
 INSERT INTO `think_auth_rule` VALUES (175, 'admin/comment/data_list', '评论管理', 1, 2, 'fa fa-ban', '', 24, 8, 1629434893, 1629434893);
 INSERT INTO `think_auth_rule` VALUES (176, 'admin/articles/sort', '前端排序生成', 1, 2, 'fa fa-ban', '', 24, 9, 1631764400, 1631764400);
@@ -458,11 +458,15 @@ CREATE TABLE `think_forbidden_words`  (
   `word` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '禁词',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0:禁用 1:开启',
   PRIMARY KEY (`fid`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_forbidden_words
 -- ----------------------------
+INSERT INTO `think_forbidden_words` VALUES (5, '顶你个肺', 1);
+INSERT INTO `think_forbidden_words` VALUES (6, '朴街', 1);
+INSERT INTO `think_forbidden_words` VALUES (7, '你妹', 1);
+INSERT INTO `think_forbidden_words` VALUES (8, '臭B', 0);
 
 -- ----------------------------
 -- Table structure for think_friend_link
@@ -512,13 +516,13 @@ CREATE TABLE `think_live_house`  (
   `status` tinyint(1) NULL DEFAULT 1 COMMENT '0:直播间禁用 1:直播间启用',
   `create_time` int(11) NOT NULL COMMENT '直播间添加时间',
   PRIMARY KEY (`lid`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_live_house
 -- ----------------------------
-INSERT INTO `think_live_house` VALUES (1, '1号房间', 'http://47.109.19.60:808/ps/11.flv', '123', '18:00:00', '', 3, '管理员', 1, 1634725586);
-INSERT INTO `think_live_house` VALUES (4, '2号房间', 'http://47.109.19.60:808/ps/11.flv', '456', '16:00:00', NULL, 5, '管理员', 1, 1634725586);
+INSERT INTO `think_live_house` VALUES (1, '1号房间', 'http://47.109.19.60:808/ps/11.flv', '123', '18:00:00', '阿拉腾黑力火速TKO！47秒刷新记录 武亚楠UFC之路险终结', 10, '管理员', 1, 1634725586);
+INSERT INTO `think_live_house` VALUES (4, '2号房间', 'http://47.109.19.60:808/ps/11.flv', '456', '16:00:00', '', 6, '管理员', 0, 1634725586);
 
 -- ----------------------------
 -- Table structure for think_log
@@ -534,13 +538,24 @@ CREATE TABLE `think_log`  (
   `add_time` int(11) NULL DEFAULT NULL COMMENT '添加时间',
   `ipaddr` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'ip地区信息',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 4711 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 4722 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '日志表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_log
 -- ----------------------------
 INSERT INTO `think_log` VALUES (4709, 1, 'admin', '退出登录', '127.0.0.1', 200, 1649582619, '内网IP');
 INSERT INTO `think_log` VALUES (4710, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1649582628, '内网IP');
+INSERT INTO `think_log` VALUES (4711, 1, 'admin', '退出登录', '127.0.0.1', 200, 1649596194, '内网IP');
+INSERT INTO `think_log` VALUES (4712, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1649596260, '内网IP');
+INSERT INTO `think_log` VALUES (4713, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1649596275, '内网IP');
+INSERT INTO `think_log` VALUES (4714, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1650018945, '内网IP');
+INSERT INTO `think_log` VALUES (4715, 1, 'admin', '退出登录', '127.0.0.1', 200, 1650018951, '内网IP');
+INSERT INTO `think_log` VALUES (4716, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1650018966, '内网IP');
+INSERT INTO `think_log` VALUES (4717, 1, 'admin', '退出登录', '127.0.0.1', 200, 1650027763, '内网IP');
+INSERT INTO `think_log` VALUES (4718, 1, 'admin', '管理员【admin】登录成功', '127.0.0.1', 200, 1650027801, '内网IP');
+INSERT INTO `think_log` VALUES (4719, 1, 'admin', '清除缓存成功', '127.0.0.1', 200, 1650051719, '内网IP');
+INSERT INTO `think_log` VALUES (4720, 1, 'admin', '菜单【外链管理】禁用成功', '127.0.0.1', 200, 1650280754, '内网IP');
+INSERT INTO `think_log` VALUES (4721, 1, 'admin', '菜单【网站配置】禁用成功', '127.0.0.1', 200, 1650281051, '内网IP');
 
 -- ----------------------------
 -- Table structure for think_test
@@ -566,23 +581,39 @@ CREATE TABLE `think_users`  (
   `uid` int(8) NOT NULL AUTO_INCREMENT,
   `name` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '用户别名(随机生成2-8个中文字)',
   `explorer_key` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '浏览器唯一标识',
-  `online_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0:不在线 1:在线',
-  `chat_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0:禁言 1:不禁言',
+  `chat_status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0:禁言 1:不禁言',
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '0:禁用用户 1:用户正常',
   `ip` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL COMMENT '最近登陆ip',
   `create_time` int(11) NOT NULL COMMENT '用户创建时间',
   PRIMARY KEY (`uid`) USING BTREE,
   INDEX `explorer_key`(`explorer_key`) USING BTREE
-) ENGINE = MyISAM AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = MyISAM AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of think_users
 -- ----------------------------
-INSERT INTO `think_users` VALUES (1, '十一', 'sdfs345rsfsdfsdfsdf', 1, 1, 1, '127.0.0.1', 1634725586);
-INSERT INTO `think_users` VALUES (2, '张三', 'sdfhfghe4ergdfg', 1, 0, 1, '127.0.0.2', 1634725586);
-INSERT INTO `think_users` VALUES (9, '谐形', '14abfab7f2cce1791cdca230fff975a2', 1, 0, 1, '127.0.0.1', 1649571924);
-INSERT INTO `think_users` VALUES (8, '襄绩', '07c8002858905d277be802dfdc3eb3ca', 1, 0, 1, '127.0.0.1', 1649571466);
-INSERT INTO `think_users` VALUES (10, '手背歇', '0c0888628259fe2a5668d8e57291bd7d', 1, 0, 1, '127.0.0.1', 1649574966);
+INSERT INTO `think_users` VALUES (1, '十一', 'sdfs345rsfsdfsdfsdf', 1, 1, '127.0.0.1', 1634725586);
+INSERT INTO `think_users` VALUES (2, '张三', 'sdfhfghe4ergdfg', 1, 1, '127.0.0.2', 1634725586);
+INSERT INTO `think_users` VALUES (9, '谐形', '14abfab7f2cce1791cdca230fff975a2', 1, 1, '127.0.0.1', 1649571924);
+INSERT INTO `think_users` VALUES (8, '襄绩', '07c8002858905d277be802dfdc3eb3ca', 1, 1, '127.0.0.1', 1649571466);
+INSERT INTO `think_users` VALUES (10, '手背歇', '0c0888628259fe2a5668d8e57291bd7d', 1, 1, '127.0.0.1', 1649574966);
+INSERT INTO `think_users` VALUES (11, '般哀厂', 'bb6340fdc38df3e13eb96e6e58914189', 1, 1, '127.0.0.1', 1649694234);
+INSERT INTO `think_users` VALUES (12, '小埠秒工蛋', '8753215aeebe25f0a8e849f7fd7a897f', 1, 1, '127.0.0.1', 1649694278);
+
+-- ----------------------------
+-- Table structure for think_value
+-- ----------------------------
+DROP TABLE IF EXISTS `think_value`;
+CREATE TABLE `think_value`  (
+  `id` int(6) NOT NULL AUTO_INCREMENT,
+  `value` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = MyISAM AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of think_value
+-- ----------------------------
+INSERT INTO `think_value` VALUES (1, 'http://127.0.0.2');
 
 -- ----------------------------
 -- Table structure for think_word
