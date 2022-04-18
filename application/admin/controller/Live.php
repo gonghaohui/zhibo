@@ -148,6 +148,9 @@ class Live extends Base
                     $string = rtrim($string,',');
                     $redis->set('fake_room_'.$param['lid'].'_user_list',$string);
                 }
+                if($create_num == 0){
+                    $redis->del('fake_room_'.$param['lid'].'_user_list');
+                }
 
                 return ['code' => 200, 'data' => '', 'msg' => '修改成功'];
             }else{
