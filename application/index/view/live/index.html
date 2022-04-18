@@ -274,7 +274,9 @@
                         }
                     }
                     for(let k=0;k<data.fakeUserList.length;k++){
-                        $("#brief").append('<p><span class="user_icon"></span><strong>'+data.fakeUserList[k]+'</strong></p>')
+                        if(data.fakeUserList[k] != ''){
+                            $("#brief").append('<p><span class="user_icon"></span><strong>'+data.fakeUserList[k]+'</strong></p>')
+                        }
                     }
                 }
             }
